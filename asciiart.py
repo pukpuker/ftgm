@@ -34,7 +34,7 @@ class asciiartMod(loader.Module):
 
         exts = ["png"]
         if reply.file:
-            if reply.file.mime_type.split("/")[0] in exts:
+            if reply.file.mime_type.split("/")[1] in exts:
                 await message.edit("<i>Какаю Путена ...</i>")
                 BACK_COLOR = "BLACK"
                 IN_IMG=await reply.download_media()
