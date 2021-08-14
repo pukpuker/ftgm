@@ -4,7 +4,10 @@ class GetPPMod(loader.Module):
 	"""Description for module"""
 	strings = {
 	"name": "Profile Photos",
-	"err": "<code>ID number you entered is invalid</code>"}
+	"err": "<code>ID number you entered is invalid</code>",
+	"uerr": "infvalid query",
+	"iderr": "<code>No photo found with that id</code>"
+	}
 	async def client_ready(self, client, db):
 		self.client = client
 		self.db = db
@@ -36,35 +39,67 @@ class GetPPMod(loader.Module):
 			try:
 				id = int(id)
 			except:
-				await message.edit(err)
+				await message.edit(strings["err"])
 				return
 			if int(id) <= (len(photos)):
 				send_photos = await self.client.download_media(photos[id - 1])
 				await self.client.send_file(message.chat_id, send_photos)
 			else:
-				await message.edit("<code>No photo found with that id</code>")
+				await message.edit('found in goolag')
 				return
+
 	async def allocmd(self, message):
-		args=utils.get_args_raw(message)
+		args=utils.get_args_raw(message).strip().split()
 		lst=["doc", "nolimit", "count"]
-		limit=90
 		doc=False
-		reply=await message.get_reply_message()
 		chat = message.to_id
-		if args:
+
+		reply=await message.get_reply_message()
+		limit=69
+		if not args:
+			if reply:
+				if not reply.fwd_from:
+					u=await self.client.get_entity(reply.from_id)
+					await getpfp(self,message,u, limit)
+				else:
+					fwd=reply.fwd_from.from_id
+					entity=await self.client.get_entity(fwd)
+					await getpfp(self,message,entity, limit)
+
+		if len(args)>1:
 			try:
-				entity=await self.client.get_entity(args.strip())
+				id=int(args[1])
 			except:
-				await message.edit(err)
-		else:
-			entity=await self.client.get_entity(chat)
-		await getpfp(self,message,entity)
+				return await message.edit("no photo with that id")
+			entity=await self.client.get_entity(int(args[0])if str(args[0]).isdigit() else str(args[0]))
+			a=self.client.iter_profile_photos(entity);b=[];f=[]
+			async for _ in a:
+				b.append(_)
+			g=b[id].video_sizes
+			if g:
+				pfp=await self.client.download_media(_, "in.mp4")
+				name=f"{entity.id}_{_.date}.mp4"
+				os.system(f'ffmpeg -y -i "{pfp}" -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 \
+	-c:v copy -shortest "{name}"')
+				f.append(name)
+			else:
+				pfp=await self.client.download_media(_, f"{entity.id}_{_.date}")
+				f.append(pfp)
+			await self.client.send_file(message.to_id, file=f, force_document=doc)
 
-#async def pfping(self,entity):
+		elif len(args)==1:
+			entity=await self.client.get_entity(int(args[0])if str(args[0]).isdigit() else str(args[0]))
+			try:
+				await getpfp(self,message,entity,limit)
+			except:
+				await message.edit('serch in goolag')
 
-
-async def getpfp(self,message,entity):
-	limit=90
+####
+async def gete(self,u):
+	entity=await self.client.get_entity(u)
+	return entity
+####
+async def getpfp(self,message,entity,limit):
 	doc=False
 	a=self.client.iter_profile_photos(entity, limit=limit);b=[];f=[]
 	async for _ in a:
