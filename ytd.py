@@ -29,6 +29,7 @@ class ytdlMod(loader.Module):
 		await ytd(self, message)
 
 async def ytd(self, message):
+	from moviepy.editor import VideoFileClip
 	from pytube import YouTube
 	from requests import get
 	from io import BytesIO as IO
@@ -46,6 +47,7 @@ async def ytd(self, message):
 	await message.delete()
 
 async def cutter(self, message, name):
+	from moviepy.editor import VideoFileClip
 	clip=VideoFileClip(name)
 	secs=clip.duration
 	import sponsorblock as sb;import os
