@@ -56,6 +56,7 @@ async def cutter(self, message, name, url):
 		segments=cli.get_skip_segments(url)
 	except:
 		return False
+                break
 	z=0;a=[]
 	from os import system as s
 	segments.reverse
