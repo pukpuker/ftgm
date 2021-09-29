@@ -39,7 +39,7 @@ async def ytd(self, message):
 	yt=YouTube(url)
 	thumb=wget.download(yt.thumbnail_url)
 	name=yt.streams.filter(progressive=True).order_by('resolution').desc().first().download()
-	vvideo=await cutter(self, message, name, url)
+	vvideo=if await cutter(self, message, name, url) not False else name
 	await message.edit("uplovd")
 	await self.client.send_file(message.to_id, vvideo, caption=f"<a href={url}>{yt.title}</a>", reply_to=reply, supports_streaming=True, duration=round(yt.length), thumb=thumb)
 	os.remove(vvideo)
@@ -52,7 +52,10 @@ async def cutter(self, message, name, url):
 	secs=clip.duration
 	import sponsorblock as sb;import os
 	cli = sb.Client()
-	segments=cli.get_skip_segments(url)
+	try:
+		segments=cli.get_skip_segments(url)
+	except:
+		return False
 	z=0;a=[]
 	from os import system as s
 	segments.reverse
