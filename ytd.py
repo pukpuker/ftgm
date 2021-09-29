@@ -8,6 +8,7 @@ import os
 from .. import loader, utils
 from telethon import events
 from telethon.tl.types import Message, Channel
+from moviepy.editor import VideoFileClip
 @loader.tds
 class ytdlMod(loader.Module):
 	"""yt downlod module"""
@@ -29,7 +30,6 @@ class ytdlMod(loader.Module):
 
 async def ytd(self, message):
 	from pytube import YouTube
-	from moviepy.editor import VideoFileClip
 	from requests import get
 	from io import BytesIO as IO
 	import wget
