@@ -45,7 +45,7 @@ async def ytd(self, message):
 	os.remove(thumb)
 	await message.delete()
 
-async def cutter(self, message, filer):
+async def cutter(self, message, name):
 	clip=VideoFileClip(name)
 	secs=clip.duration
 	import sponsorblock as sb;import os
