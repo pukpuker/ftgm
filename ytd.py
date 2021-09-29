@@ -39,14 +39,14 @@ async def ytd(self, message):
 	yt=YouTube(url)
 	thumb=wget.download(yt.thumbnail_url)
 	name=yt.streams.filter(progressive=True).order_by('resolution').desc().first().download()
-	vvideo=await cutter(self, message, name)
+	vvideo=await cutter(self, message, name, url)
 	await message.edit("uplovd")
 	await self.client.send_file(message.to_id, vvideo, caption=f"<a href={url}>{yt.title}</a>", reply_to=reply, supports_streaming=True, duration=round(yt.length), thumb=thumb)
 	os.remove(vvideo)
 	os.remove(thumb)
 	await message.delete()
 
-async def cutter(self, message, name):
+async def cutter(self, message, name, url):
 	from moviepy.editor import VideoFileClip
 	clip=VideoFileClip(name)
 	secs=clip.duration
