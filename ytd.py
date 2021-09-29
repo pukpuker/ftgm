@@ -24,7 +24,7 @@ class ytdlMod(loader.Module):
 	async def ytdcmd(self, message):
 		""".ytd - dowmload yt video"""
 		#os.system('pip uninstall Pillow -y && pip install Pillow')
-		os.system("pip install Pillow pytube wget moviepy")
+		os.system("pip install Pillow pytube wget moviepy cryptg sponsorblock")
 		reply=await message.get_reply_message()
 		await ytd(self, message)
 
