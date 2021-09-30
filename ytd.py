@@ -42,9 +42,14 @@ async def ytd(self, message):
 	vvideo=await cutter(self, message, name, url)
 	if vvideo==False:
 		vvideo=name
+		clip=VideoFileClip(name)
 	else:
+		clip=VideoFileClip('out.mp4')
+		secs=clip.duration
 		pass
 	await message.edit("uplovd")
+	clip=VideoFileClip(name)
+	secs=clip.duration
 	await self.client.send_file(message.to_id, vvideo, caption=f"<a href={url}>{yt.title}</a>", reply_to=reply, supports_streaming=True, duration=round(secs), thumb=thumb)
 	os.remove(vvideo)
 	os.remove(thumb)
