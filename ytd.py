@@ -45,7 +45,7 @@ async def ytd(self, message):
 	else:
 		pass
 	await message.edit("uplovd")
-	await self.client.send_file(message.to_id, vvideo, caption=f"<a href={url}>{yt.title}</a>", reply_to=reply, supports_streaming=True, duration=round(yt.length), thumb=thumb)
+	await self.client.send_file(message.to_id, vvideo, caption=f"<a href={url}>{yt.title}</a>", reply_to=reply, supports_streaming=True, duration=round(secs), thumb=thumb)
 	os.remove(vvideo)
 	os.remove(thumb)
 	await message.delete()
