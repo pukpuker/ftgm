@@ -61,6 +61,7 @@ async def cutter(self, message, name, url):
 	secs=clip.duration
 	import sponsorblock as sb;import os
 	cli = sb.Client()
+	tet=True
 	try:
 		segments=cli.get_skip_segments(url)
 	except:
