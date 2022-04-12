@@ -38,12 +38,13 @@ async def ses(self, message, args, reply):
 		'add-metadata': True
 		}
 	uri=args[0] if args else reply.message
+	await message.edit("loading")
 	try:
-		opts.update({'format': 'best[ext^=mp4][height<1400][fps>30]'})
+		opts.update({'format': 'bestvideo[ext^=mp4][height<1400][fps>30]+ba[ext^=m4a]'})
 		a, nama=await gget(uri,opts)
 	except Exception as e:
 		print(e)
-		opts['format']='best[height<1400]'
+		opts['format']='best[ext^=mp4][height<1400]'
 		a, nama=await gget(uri,opts)
 
 	thumb=a['thumbnails'][-1]['url']
@@ -52,7 +53,7 @@ async def ses(self, message, args, reply):
 	await message.edit('uplowing')
 	th=f"{a['id']}.jpg"
 	Image.open(thumb_).save(th, quality=100)
-	await self.client.send_file(message.to_id, thumb_, force_document=False)
+	await self.client.send_file(message.to_id, th, force_document=False)
 	await self.client.send_file(
 		message.to_id,
 		nama,
