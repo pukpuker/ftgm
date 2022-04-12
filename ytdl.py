@@ -25,7 +25,7 @@ class ytdlMod(loader.Module):
 async def ses(self, message, args, reply):
 	opts={
 		'postprocessors':[
-		{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'},
+		#{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'},
 		{'key': 'SponsorBlock'},
 		{'key': 'ModifyChapters',
 		'remove_sponsor_segments':[
@@ -39,11 +39,11 @@ async def ses(self, message, args, reply):
 		}
 	uri=args[0] if args else reply.message
 	try:
-		opts.update({'format': 'bestvideo[ext^=mp4][height<1400][fps>30]'})
+		opts.update({'format': 'best[ext^=mp4][height<1400][fps>30]'})
 		a, nama=await gget(uri,opts)
 	except Exception as e:
 		print(e)
-		opts['format']='bestvideo+bestaudio'
+		opts['format']='best[height<1400]'
 		a, nama=await gget(uri,opts)
 
 	thumb=a['thumbnails'][-1]['url']
@@ -52,7 +52,7 @@ async def ses(self, message, args, reply):
 	await message.edit('uplowing')
 	th=f"{a['id']}.jpg"
 	Image.open(thumb_).save(th, quality=100)
-	await self.client.send_file(message.to_id, thumb_, force_document=True)
+	await self.client.send_file(message.to_id, thumb_, force_document=False)
 	await self.client.send_file(
 		message.to_id,
 		nama,
@@ -60,9 +60,8 @@ async def ses(self, message, args, reply):
 		force_document=False,
 		reply_to=reply.id if reply else None,
 		supports_streaming=True,
-		caption=f"""<a href=>{a['title']}</a>
-<b>{a['resolution']}
-fps:{a['fps']}\t ext: {a['ext']}</b>""")
+		caption=f"""<a href={a['original_url']}>{a['title']}</a>
+<b>res:{a['resolution']}\tfps:{a['fps']}\text:{a['ext']}</b>""")
 	os.remove(nama)
 	os.remove(thumb_)
 	await message.delete()
