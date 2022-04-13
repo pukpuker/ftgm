@@ -111,5 +111,5 @@ bitrate:{a['abr']}Kb ext:{a['ext']}"""
 	if type_!='a':
 		try:fps=a['fps']
 		except:fps=None
-		_+=""" res:{a['resolution']} fps:{fps}"""
+		_+=f""" res:{a['resolution']} fps:{fps}"""
 	return _
