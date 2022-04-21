@@ -48,7 +48,7 @@ async def ses(self, message, args, reply, type_):
 		'geo_bypass': True,
 		'outtmpl': '%(title)s.%(ext)s',
 		'add-metadata': True}
-	text=reply.message
+	text=reply.message if reply else None
 	if args:
 		if 'thumb' in args:thumb_=True
 		else:thumb_=False
