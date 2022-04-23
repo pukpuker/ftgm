@@ -66,11 +66,11 @@ async def ses(self, message, args, reply, type_):
 			a, nama=await gget(uri,opts)
 		except Exception as e:
 			print(e)
-			opts['format']='best[ext^=mp4][height<1400]'	#opts['format']='ba[ext^=mp3]'
+			opts['format']='ba'#[ext^=mp4][height<1400]'	#opts['format']='ba[ext^=mp3]'
 			opts['postprocessors'].append({'key': 'FFmpegExtractAudio','preferredcodec': 'm4a'})
 			a, nama=await gget(uri,opts)
 
-		nama=''.join(nama.split('.')[:-1])+'.m4a'
+			nama=''.join(nama.split('.')[:-1])+'.m4a'
 		_ = a['uploader'] if 'uploader' in a else 'umknown'
 
 		th, thumb=await get_thumb(a, message)
@@ -134,6 +134,6 @@ ext:{a['ext']} """
 	else:
 		try:fps=a['fps']
 		except:fps=None
-		_+=f"res:{a['format']}"
+		_+=f"res:{a['resolution']}"
 		_+=f"fps:{fps}" if fps else ''
 	return _
