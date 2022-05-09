@@ -1,5 +1,3 @@
-from datetime import datetime
-from telethon import events
 import io
 import os
 from PIL import Image, ImageDraw, ImageFont
