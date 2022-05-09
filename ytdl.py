@@ -2,8 +2,6 @@
 import os, wget
 from .. import loader, utils
 from telethon.tl.types import DocumentAttributeAudio
-from telethon import events
-from telethon.tl.types import Message, Channel
 from yt_dlp import YoutubeDL
 from PIL import Image
 

@@ -1,5 +1,4 @@
 # requires: wget 
-from telethon import events
 from .. import loader, utils
 import os
 
