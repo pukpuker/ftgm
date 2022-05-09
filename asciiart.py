@@ -26,7 +26,8 @@ class asciiartMod(loader.Module):
     async def client_ready(self, client, db):
         self.client = client
 
-    async def artcmd(self, message):
+    @staticmethod
+    async def artcmd(message):
         """<><><<>><<<<><><>"""
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
@@ -63,7 +64,8 @@ class asciiartMod(loader.Module):
 
         await message.edit("Там пиздец, фото нет")
 
-    async def pngcmd(self, message):
+    @staticmethod
+    async def pngcmd(message):
         await message.delete()
         await message.respond(file=await prepare(message))
 
