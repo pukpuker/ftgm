@@ -23,6 +23,7 @@ class asciiartMod(loader.Module):
 
     async def artcmd(self, message):
         """yes"""
+        name=self.name
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
         await message.edit("<i>Какаю Путена ...</i>")
@@ -57,6 +58,7 @@ class asciiartMod(loader.Module):
         await message.edit("Там пиздец, фото нет")
 
     async def pngcmd(self, message):
+        name=self.name
         await message.reply(file=await prepare(message))
         await message.delete()
         
