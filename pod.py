@@ -37,7 +37,6 @@ class MSMod(loader.Module):
 
 		if not reply:
 			return await utils.answer(message, self.strings("no_reply", message))
-
 		if reply.media:
 			await message.edit("###")
 			b=await reply.download_media()
