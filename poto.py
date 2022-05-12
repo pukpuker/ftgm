@@ -85,4 +85,3 @@ async def getpfp(self,message,entity,limit):
 			f.append(pfp)
 
 	await self.client.send_file(message.to_id, file=f, force_document=doc)
-	#os.system("cd && rm -rf *.jpg && rm -rf *.mp*")

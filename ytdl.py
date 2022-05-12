@@ -36,7 +36,6 @@ async def ses(self, message, args, reply, type_):
 	opts={
 		'embed-thumbnail': True,
 		'postprocessors':[
-		#{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'},
 		{'key': 'SponsorBlock'},
 		{'key': 'ModifyChapters',
 		'remove_sponsor_segments':[
