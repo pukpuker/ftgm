@@ -1,9 +1,6 @@
-import io
-import os
+import io, os
 from PIL import Image, ImageDraw, ImageFont
-import random
-import math
-import requests
+import random, math, requests
 from .. import loader, utils
 
 def register(cb):
@@ -24,9 +21,8 @@ class asciiartMod(loader.Module):
     async def client_ready(self, client, db):
         self.client = client
 
-    @staticmethod
-    async def artcmd(message):
-        """<><><<>><<<<><><>"""
+    async def artcmd(self, message):
+        """yes"""
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
         await message.edit("<i>Какаю Путена ...</i>")
@@ -58,18 +54,12 @@ class asciiartMod(loader.Module):
         await reply.reply(file='RESULT.png', force_document=True)
         os.remove('RESULT.png')
         await message.delete()
-
-
         await message.edit("Там пиздец, фото нет")
 
-    @staticmethod
-    async def pngcmd(message):
+    async def pngcmd(self, message):
+        await message.reply(file=await prepare(message))
         await message.delete()
-        await message.respond(file=await prepare(message))
-
-
-
-
+        
 async def getimg(ae):
     if not ae.file:
         return False
