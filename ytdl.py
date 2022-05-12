@@ -48,8 +48,7 @@ async def ses(self, message, args, reply, type_):
 		'add-metadata': True}
 	text=reply.message if reply else None
 	if args:
-		if 'thumb' in args:thumb_=True
-		else:thumb_=False
+		thumb_='thumb' in args
 		if uri:=args[0]:
 			if 'http' in uri:pass
 			else:uri=text
