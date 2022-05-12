@@ -27,7 +27,6 @@ class MSMod(loader.Module):
 	async def podcmd(self, message):
 		reply = await message.get_reply_message()
 		args = utils.get_args(message)
-
 		if not args:
 			return await utils.answer(message, self.strings("noarg", message))
 
