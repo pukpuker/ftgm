@@ -62,6 +62,7 @@ class asciiartMod(loader.Module):
         await message.reply(file = await prepare(message))
         await message.delete()
 
+
 async def getimg(ae):
     if not ae.file:
         return False

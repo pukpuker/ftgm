@@ -84,11 +84,9 @@ class userinfoMod(loader.Module):
         self.config = loader.ModuleConfig("ENCODE", False, lambda m: self.strings("encode_cfg_doc", m))
         self.replier = ''
 
-
     async def client_ready(self, client, db):
         self.client = client
         self.db = db
-
 
     async def humanize(self, list_, full, replier):
         for i in list_:
@@ -100,7 +98,6 @@ class userinfoMod(loader.Module):
 
         self.replier += replier
         return
-
 
     async def get_user(self, message, args):
         m = await message.get_reply_message()
@@ -121,11 +118,9 @@ class userinfoMod(loader.Module):
                 await utils.answer(message, self.strings("cannot_find", message))
         return full, m
 
-
     async def get_m(self, client, entity):
         res = await client.get_messages(await client.get_entity(entity), limit = 1)
         return res
-
 
     async def get_attributes(self, full):
 
@@ -148,7 +143,6 @@ class userinfoMod(loader.Module):
         setattr(obj, 'dc_id', E(obj.photo).dc_id)
 
         return obj._, obj
-
 
     def _handle_string(self, string):
         if self.config["ENCODE"]:
