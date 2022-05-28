@@ -59,8 +59,19 @@ class userinfoMod(loader.Module):
             "cannot_find": "Can't find user.",
             "permalink_txt": "<a href='tg://user?id={uid}'>{txt}</a>",
             "permalink_uid": "<a href='tg://user?id={uid}'>Permalink to {uid}</a>",
-            "permalink_public_channel": "<a href='tg://resolve?domain={domain}'>Permalink to <code>{title}</code></a>",
-            "permalink_private_channel": "<a href='tg://privatepost?channel={channel_id}&post={post}'>Permalink1 to <code>{title}</code></a>(desjtop)\n<a href='tg://openmessage?chat_id={channel_id}'>Permalink2</a>(mobile)",
+
+            "permalink_public_channel":
+                "<a href='tg://resolve?domain={domain}'>\
+                    Permalink to <code>{title}</code></a>",
+
+            "permalink_private_channel":
+                "<a href=\
+                    'tg://privatepost?channel={channel_id}&post={post}'>\
+                        Permalink1 to <code>{title}</code></a>(desktop)\
+                        \n<a href=\
+                            'tg://openmessage?chat_id={channel_id}'>\
+                                Permalink2</a>(mobile)",
+
             "encode_cfg_doc": "Encode unicode characters"
     }
 
@@ -102,8 +113,8 @@ class userinfoMod(loader.Module):
                 await utils.answer(message, self.strings("cannot_find", message))
         return full, m
 
-    async def get_m(self, client):
-        res = (await client.get_messages(await client.get_entity(1154669154), limit = 1))
+    async def get_m(self, client, entity):
+        res = (await client.get_messages(await client.get_entity(entity), limit = 1))
         return res
 
     async def get_attributes(self, full):

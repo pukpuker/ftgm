@@ -111,7 +111,11 @@ async def ses(self, message, args, reply, type_):
 
 async def gget(uri, opts):
     import yt_dlp.utils
-    yt_dlp.utils.std_headers['User-Agent'] = '" Not A;Brand";v="99", "Chromium";v="102", "Google Chrome";v="102"'
+    yt_dlp.utils.std_headers['User-Agent'] =\
+                                        '" Not A;Brand";v="99",\
+                                        "Chromium";v="102",\
+                                        "Google Chrome";v="102"'
+
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download = True)
         nama = ydl.prepare_filename(a)
