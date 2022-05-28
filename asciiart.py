@@ -20,6 +20,9 @@ class asciiartMod(loader.Module):
         self.name = self.strings['name']
         self._me = None
         self._ratelimit = []
+        self.font_url =\
+            "https://raw.githubusercontent.com/monolit/fonts/main/\
+            MiLanProVF.ttf"
 
     async def client_ready(self, client, db):
         self.client = client
@@ -32,7 +35,7 @@ class asciiartMod(loader.Module):
         await message.edit("<i>Какаю Путена ...</i>")
         BACK_COLOR = "BLACK"
         IN_IMG=await prepare(message)
-        fontik=requests.get("https://raw.githubusercontent.com/monolit/fonts/main/MiLanProVF.ttf").content
+        fontik=requests.get().content
         FNT=ImageFont.truetype(io.BytesIO(fontik), 7)
         im = Image.open(IN_IMG)
         (width, height) = im.size

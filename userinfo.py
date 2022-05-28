@@ -80,7 +80,10 @@ class userinfoMod(loader.Module):
     }
 
     def __init__(self):
-        self.config = loader.ModuleConfig("ENCODE", False, lambda m: self.strings("encode_cfg_doc", m))
+        self.config = loader.ModuleConfig(
+            "ENCODE",
+            False,
+            lambda m: self.strings("encode_cfg_doc", m))
         self.replier = ''
 
     async def client_ready(self, client, db):
@@ -155,7 +158,8 @@ class userinfoMod(loader.Module):
     @loader.unrestricted
     @loader.ratelimit
     async def userinfocmd(self, message):
-        """userinfo [username or id] insecure(optional flag, type if u want to show ur contact's name to others)"""
+        """userinfo [username or id] [insecure]\
+        (optional flag, type if u want to show ur contact's name to others)"""
 
         args = utils.get_args(message)
         try:
@@ -164,11 +168,14 @@ class userinfoMod(loader.Module):
         except Exception as e:
             logger.debug(e)
         # a little bit sesuritical
-        if type_ == 'User' and not 'insecure' in args and message.chat and full.contact:
-            full.first_name = None        #self._handle_string(full.first_name[0])
-            try: full.last_name = None     #self._handle_string(full.last_name[0])
+        if type_ == 'User'\
+            and 'insecure' not in args\
+            and message.chat and full.contact:
+
+            full.first_name = None    #self._handle_string(full.first_name[0])
+            try: full.last_name = None#self._handle_string(full.last_name[0])
             except: pass
-            full.phone = None             #self._handle_string(full.phone[0])
+            full.phone = None         #self._handle_string(full.phone[0])
             self.hidden = True
 
         await self.humanize(self.common_list, full, '')
@@ -179,7 +186,9 @@ class userinfoMod(loader.Module):
         if type_ == 'Channel':
             await self.humanize(self.chat_list, full, '')
 
-        await utils.answer(message, f'<u><b>{type_}</u> Info:</b>'+self.replier)
+        await utils.answer(
+            message,
+            f'<u><b>{type_}</u> Info:</b>'+self.replier)
 
         # reset data
         self.replier = ''

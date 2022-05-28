@@ -124,23 +124,37 @@ class LoaderMod(loader.Module):
                "loaded": "<b>Module loaded.</b>",
                "no_class": "<b>What class needs to be unloaded?</b>",
                "unloaded": "<b>Module unloaded.</b>",
-               "not_unloaded": "<b>Module not unloaded.</b>",
-               "requirements_failed": "<b>Requirements installation failed</b>",
-               "requirements_installing": "<b>Installing requirements...</b>",
-               "requirements_restart": "<b>Requirements installed, but a restart is required</b>",
+               "not_unloaded":
+                    "<b>Module not unloaded.</b>",
+               "requirements_failed":
+                    "<b>Requirements installation failed</b>",
+               "requirements_installing":
+                    "<b>Installing requirements...</b>",
+
+               "requirements_restart":
+                    "<b>Requirements installed, but a restart is required</b>",
+
                "all_modules_deleted": "<b>All modules deleted</b>",
                "reply_to_txt": "<b>Reply to .txt file<b>",
-               "restored_modules": "<b>Loaded:</b> <code>{}</code>\n<b>Already loaded:</b> <code>{}</code>",
-               "backup_completed": "<b>Modules backup completed</b>\n<b>Count:</b> <code>{}</code>",
+
+               "restored_modules":
+                    """<b>Loaded:</b> <code>{}</code>
+                <b>Already loaded:</b> <code>{}</code>""",
+
+               "backup_completed":
+                    "<b>Modules backup completed</b>\n<b>Count:</b> <code>{}</code>",
                "no_modules": "<b>You have no custom modules!</b>",
                "no_name_module": "<b>Type module name in arguments</b>",
                "no_command_module": "<b>Type module command in arguments</b>",
                "command_not_found": "<b>Command was not found!</b>",
                "searching": "<b>Searching...</b>",
                "file": "<b>File of module {}:<b>",
-               "module_link": "<a href=\"{}\">Link</a> for module {}: \n<code>{}</code>",
-               "not_found_info": "Request to find module with name {} failed due to:",
-               "not_found_c_info": "Request to find module with command {} failed due to:",
+               "module_link":
+                    "<a href=\"{}\">Link</a> for module {}: \n<code>{}</code>",
+               "not_found_info":
+                    "Request to find module with name {} failed due to:",
+               "not_found_c_info":
+                    "Request to find module with command {} failed due to:",
                "not_found": "<b>Module was not found</b>",
                "file_core": "<b>File of core module {}:</b>",
                "loading": "<b>Loading...</b>",
@@ -148,14 +162,18 @@ class LoaderMod(loader.Module):
                "args_incorrect": "<b>Args incorrect</b>",
                "repo_loaded": "<b>Repository loaded</b>",
                "repo_not_loaded": "<b>Repository not loaded</b>",
-               "repo_unloaded": "<b>Repository unloaded, but restart is required to unload repository modules</b>",
-               "repo_not_unloaded": "<b>Repository not unloaded</b>"}
+               "repo_unloaded":
+                    "<b>Repository unloaded, but restart is required \
+                        to unload repository modules</b>",
+               "repo_not_unloaded": "<b>Repository not unloaded</b>"
+    }
 
     def __init__(self):
         super().__init__()
-        self.config = loader.ModuleConfig("MODULES_REPO",
-                                          "https://raw.githubusercontent.com/GeekTG/FTG-Modules/main/",
-                                          lambda m: self.strings("repo_config_doc", m))
+        self.config = loader.ModuleConfig(
+            "MODULES_REPO",
+            "https://raw.githubusercontent.com/GeekTG/FTG-Modules/main/",
+            lambda m: self.strings("repo_config_doc", m))
 
     @loader.owner
     async def dlmodcmd(self, message):
@@ -164,8 +182,14 @@ class LoaderMod(loader.Module):
         if args:
             args = args[0] if urllib.parse.urlparse(args[0]).netloc else args[0].lower()
             if await self.download_and_install(args, message):
-                self._db.set(__name__, "loaded_modules",
-                             list(set(self._db.get(__name__, "loaded_modules", [])).union([args])))
+                self._db.set(
+                    __name__,
+                    "loaded_modules",
+                    list(set(
+                        self._db.get(
+                            __name__,
+                            "loaded_modules",
+                            [])).union([args])))
         else:
             text = utils.escape_html("\n".join(await self.get_repo_list("full")))
             await utils.answer(
@@ -265,13 +289,20 @@ class LoaderMod(loader.Module):
         module_name = "friendly-telegram.modules." + uid
         try:
             try:
-                spec = ModuleSpec(module_name, StringLoader(doc, origin), origin=origin)
+                spec = ModuleSpec(
+                    module_name,
+                    StringLoader(doc, origin), origin=origin)
                 instance = self.allmodules.register_module(spec, module_name)
             except ImportError:
-                logger.info("Module loading failed, attemping dependency installation", exc_info=True)
+                logger.info(
+                "Module loading failed, attemping dependency installation",
+                exc_info=True)
                 # Let's try to reinstall dependencies
-                requirements = list(filter(lambda x: x and x[0] not in ("-", "_", "."),
-                                           map(str.strip, VALID_PIP_PACKAGES.search(doc)[1].split(" "))))
+                requirements = list(filter(
+                    lambda x: x and x[0] not in ("-", "_", "."),
+                    map(str.strip, VALID_PIP_PACKAGES.search(doc)[1].split(" "))
+                                        )
+                                    )
                 logger.debug("Installing requirements: %r", requirements)
                 if not requirements:
                     raise  # we don't know what to install
@@ -397,7 +428,10 @@ class LoaderMod(loader.Module):
                 filter(lambda mod: None not in mod and mod[1] != "path", modules))))
         f = io.BytesIO(b)
         f.name = fname
-        await message.client.send_file(message.to_id, f, caption = "<b>Backup completed!</b>")
+        await message.client.send_file(
+            message.to_id,
+            f,
+            caption = "<b>Backup completed!</b>")
         await message.delete()
 
     @loader.owner
@@ -452,7 +486,12 @@ class LoaderMod(loader.Module):
             f = ' '.join(x.strings["name"] for x in self.allmodules.modules if
                          args.lower() == x.strings("name", message).lower())
             r = inspect.getmodule(
-                next(filter(lambda x: args.lower() == x.strings("name", message).lower(), self.allmodules.modules)))
+                next(filter(
+                    lambda x: args.lower() ==\
+                        x.strings("name", message).lower(),
+                        self.allmodules.modules)
+                    )
+            )
             link = r.__spec__.origin
 
             core_module = False
