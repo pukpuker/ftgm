@@ -79,7 +79,6 @@ class userinfoMod(loader.Module):
             "encode_cfg_doc": "Encode unicode characters"
     }
 
-
     def __init__(self):
         self.config = loader.ModuleConfig("ENCODE", False, lambda m: self.strings("encode_cfg_doc", m))
         self.replier = ''
@@ -164,8 +163,6 @@ class userinfoMod(loader.Module):
             type_, full = await self.get_attributes(full)
         except Exception as e:
             logger.debug(e)
-
-
         # a little bit sesuritical
         if type_ == 'User' and not 'insecure' in args and message.chat and full.contact:
             full.first_name = None        #self._handle_string(full.first_name[0])
@@ -186,7 +183,6 @@ class userinfoMod(loader.Module):
 
         # reset data
         self.replier = ''
-
 
     @loader.unrestricted
     @loader.ratelimit
