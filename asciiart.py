@@ -44,22 +44,22 @@ class asciiartMod(loader.Module):
 
         img = Image.new('RGBA', (im.size[0], im.size[1]), BACK_COLOR)    
         draw_text = ImageDraw.Draw(img)
-        draw_text.text((1,1), string, spacing=1, font=FNT, fill=0)
+        draw_text.text((1,1), string, spacing=1, font = FNT, fill = 0)
         img2 = Image.open(IN_IMG)
 
-        alphaComposited=Image.alpha_composite(img2, img)
+        alphaComposited = Image.alpha_composite(img2, img)
         image = alphaComposited
         new_image = Image.new("RGBA", image.size, BACK_COLOR) 
         new_image.paste(image, (0, 0), image) 
         new_image.convert('RGB').save('RESULT.png', "PNG")
-        await reply.reply(file='RESULT.png', force_document=True)
+        await reply.reply(file = 'RESULT.png', force_document = True)
         os.remove('RESULT.png')
         await message.delete()
         await message.edit("Там пиздец, фото нет")
 
     async def pngcmd(self, message):
-        name=self.name
-        await message.reply(file=await prepare(message))
+        name = self.name
+        await message.reply(file = await prepare(message))
         await message.delete()
 
 async def getimg(ae):
@@ -74,13 +74,13 @@ async def prepare(message):
         reply = await message.get_reply_message()
         if not reply or not await getimg(reply):
             return False
-        IN_IMG= await fill(reply)
+        IN_IMG = await fill(reply, message)
     else:
-        IN_IMG= await fill(message)
+        IN_IMG = await fill(message, message)
 
     return IN_IMG
 
-async def fill(ae):
+async def fill(ae, m):
     if "image" in ae.file.mime_type.lower():
         img = io.BytesIO(await ae.download_media(bytes))
         image = Image.open(img).convert("RGBA")
@@ -90,5 +90,5 @@ async def fill(ae):
         image.save(output)
         output.seek(0)
         return output
-    ext_=ae.document.mime_type.split("/")[-1]
-    return await message.edit("""{} <b>extension</b> is not supportrted""".format(ext_))
+    ext_ = ae.document.mime_type.split("/")[-1]
+    return await m.edit("""{} <b>extension</b> is not supportrted""".format(ext_))

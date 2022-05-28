@@ -33,26 +33,26 @@ class MSMod(loader.Module):
         count = args[0].strip()
         if not count.isdigit():
             return await utils.answer(message, self.strings("noarg", message))
-        count=int(count)
+        count = int(count)
 
         if not reply:
             return await utils.answer(message, self.strings("no_reply", message))
         if reply.media:
             await message.edit("###")
-            b=await reply.download_media()
+            b = await reply.download_media()
             if reply.photo:
                 for _ in range(count):
-                    await message.respond(file=b, reply_to=reply)
+                    await message.respond(file = b, reply_to = reply)
             else:
-                 mess=await message.respond(file=b, reply_to=reply)
-                 heshik=mess.file.id
+                 mess = await message.respond(file = b, reply_to = reply)
+                 heshik = mess.file.id
                  for _ in range(count-1):
-                     await message.respond(file=heshik, reply_to=reply)
+                     await message.respond(file = heshik, reply_to = reply)
             os.remove(b)
 
         if not reply.media:
             await message.edit("%%%")
             for _ in range(count):
-                await message.respond(reply.text, reply_to=reply)
+                await message.respond(reply.text, reply_to = reply)
 
         await message.delete()
