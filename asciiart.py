@@ -47,7 +47,7 @@ class asciiartMod(loader.Module):
 
         img = Image.new('RGBA', (im.size[0], im.size[1]), BACK_COLOR)
         draw_text = ImageDraw.Draw(img)
-        draw_text.text((1,1), string, spacing=1, font = FNT, fill = 0)
+        draw_text.text((1, 1), string, spacing=1, font = FNT, fill = 0)
         img2 = Image.open(IN_IMG)
 
         alphaComposited = Image.alpha_composite(img2, img)

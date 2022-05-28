@@ -39,16 +39,28 @@ class YTDLMod(loader.Module):
 async def ses(self, message, args, reply, type_):
     opts = {
         'embed-thumbnail': True,
-        'postprocessors':[
-        {'key': 'SponsorBlock'},
-        {'key': 'ModifyChapters',
-        'remove_sponsor_segments':[
-        'sponsor', 'intro', 'outro', 'interaction', 'selfpromo', 'preview', 'music_offtopic']}],
+        'postprocessors': [
+            {'key': 'SponsorBlock'},
+            {
+                'key':
+                    'ModifyChapters',
+                    'remove_sponsor_segments': [
+                        'sponsor',
+                        'intro',
+                        'outro',
+                        'interaction',
+                        'selfpromo',
+                        'preview',
+                        'music_offtopic'
+                    ]
+            }
+        ],
         #'no-check-certificate': True, 'writethumbnail': True,
-        'prefer_ffmpeg': True,
+        'prefer_ffmpeg':True,
         'geo_bypass': True,
         'outtmpl': '%(title)s.%(ext)s',
-        'add-metadata': True}
+        'add-metadata': True
+    }
     text = reply.message if reply else None
     if args:
         thumb_ = 'thumb' in args
@@ -63,9 +75,9 @@ async def ses(self, message, args, reply, type_):
     if type_ == 'a':
         try:
             opts.update({
-                'format':'ba[ext^=m4a]'
+                'format': 'ba[ext^=m4a]'
             })
-            a, nama = await gget(uri,opts)
+            a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
             opts['format'] = 'ba'
@@ -73,13 +85,16 @@ async def ses(self, message, args, reply, type_):
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'm4a'
             })
-            a, nama = await gget(uri,opts)
+            a, nama = await gget(uri, opts)
 
-            nama = ''.join(nama.split('.')[:-1])+'.m4a'
+            nama = ''.join(nama.split('.')[:-1]) + '.m4a'
         _ = a['uploader'] if 'uploader' in a else 'umknown'
 
         th, thumb = await get_thumb(a, message)
-        if thumb_:await self.client.send_file(message.to_id, th, force_document = False)
+        if thumb_: await self.client.send_file(
+            message.to_id,
+            th,
+            force_document = False)
 
         await self.client.send_file(
             message.to_id,
@@ -95,15 +110,20 @@ async def ses(self, message, args, reply, type_):
 
     else:
         try:
-            opts.update({'format': 'bestvideo[ext^=mp4][height<1400][fps>30]+ba[ext^=m4a]'})
-            a, nama = await gget(uri,opts)
+            opts.update({
+                'format': 'bestvideo[ext^=mp4][height<1400][fps>30]+ba[ext^=m4a]'
+            })
+            a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
             opts['format'] = 'best[ext^=mp4][height<1400]'
-            a, nama = await gget(uri,opts)
+            a, nama = await gget(uri, opts)
 
         th, thumb = await get_thumb(a, message)
-        if thumb_:await self.client.send_file(message.to_id, th, force_document = False)
+        if thumb_: await self.client.send_file(
+            message.to_id,
+            th,
+            force_document = False)
 
         await self.client.send_file(
             message.to_id,
@@ -143,10 +163,10 @@ async def readable(a, type_):
     _ = f"""<a href={a['original_url']}>{a['title']}</a>
 ext:{a['ext']} """
 
-    if type_ == 'a':_ += f"""bitrate:{a['abr']}Kb """
+    if type_ == 'a': _ += f"""bitrate:{a['abr']}Kb """
     else:
-        try:fps = a['fps']
-        except:fps = None
+        try: fps = a['fps']
+        except: fps = None
         _ += f"res:{a['resolution']}"
         _ += f"fps:{fps}" if fps else ''
     return _

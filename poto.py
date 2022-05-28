@@ -28,7 +28,7 @@ class GetPPMod(loader.Module):
         if not args and reply:
             if not reply.fwd_from:
                 u = await self.client.get_entity(reply.from_id)
-                await getpfp(self,message,u, limit)
+                await getpfp(self, message, u, limit)
             else:
                 fwd = reply.fwd_from.from_id
                 entity = await self.client.get_entity(fwd)
@@ -76,7 +76,7 @@ class GetPPMod(loader.Module):
                 await message.edit('serch in goolag')
 
 
-async def gete(self,u):
+async def gete(self, u):
     entity = await self.client.get_entity(u)
     return entity
 

@@ -93,8 +93,8 @@ class userinfoMod(loader.Module):
             l = getattr(full, i)
             if l not in [None, False, [], {}]:
                 temp = list_[i].format(self._handle_string(l))
-                if temp in replier:pass
-                else:replier += temp
+                if temp in replier: pass
+                else: replier += temp
 
         self.replier += replier
         return
@@ -108,18 +108,21 @@ class userinfoMod(loader.Module):
                 await utils.answer(message, self.strings("no_args_or_reply", message))
             try:
                 if l := args[0]:
-                    if '-100' in l:l = l[4:]
-                    if l.isdigit():entity = int(l)
-                    else:entity = l
+                    if '-100' in l: l = l[4:]
+                    if l.isdigit(): entity = int(l)
+                    else: entity = l
 
                 full = await self.client.get_entity(entity)
             except Exception as e:
                 logger.error(e)
-                await utils.answer(message, self.strings("cannot_find", message))
+                await utils.answer(
+                    message,
+                    self.strings("cannot_find", message))
         return full, m
 
     async def get_m(self, client, entity):
-        res = await client.get_messages(await client.get_entity(entity), limit = 1)
+        res = await client.get_messages(
+            await client.get_entity(entity), limit = 1)
         return res
 
     async def get_attributes(self, full):
@@ -136,8 +139,8 @@ class userinfoMod(loader.Module):
         elif l._ == 'Channel':
             full = await self.client(GetFullChannelRequest(l.id))
 
-            temp = {};[temp.update(i.to_dict()) for i in full.chats]
-            ae = E(full.full_chat.to_dict() | temp)
+            temp = {}; [temp.update(i.to_dict()) for i in full.chats]
+            _ae = E(full.full_chat.to_dict() | temp)
             obj = E(full.full_chat.to_dict() | full.chats[0].to_dict())
 
         setattr(obj, 'dc_id', E(obj.photo).dc_id)
@@ -166,8 +169,8 @@ class userinfoMod(loader.Module):
         # a little bit sesuritical
         if type_ == 'User' and not 'insecure' in args and message.chat and full.contact:
             full.first_name = None        #self._handle_string(full.first_name[0])
-            try:full.last_name = None     #self._handle_string(full.last_name[0])
-            except:pass
+            try: full.last_name = None     #self._handle_string(full.last_name[0])
+            except: pass
             full.phone = None             #self._handle_string(full.phone[0])
             self.hidden = True
 
