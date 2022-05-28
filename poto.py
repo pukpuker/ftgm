@@ -16,9 +16,9 @@ class GetPPMod(loader.Module):
     async def potocmd(self, message):
         """Gets the profile photos of replied or queried users, channels or chats"""
         args = utils.get_args_raw(message).strip().split()
-        lst = ["doc", "nolimit", "count"]
+        _lst = ["doc", "nolimit", "count"]
         doc = False
-        chat = message.to_id
+        _chat = message.to_id
 
         reply = await message.get_reply_message()
         limit = 69

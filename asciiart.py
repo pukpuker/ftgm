@@ -42,15 +42,15 @@ class asciiartMod(loader.Module):
                 string += str(random.choice([1, 0]))
             string += '\n'
 
-        img = Image.new('RGBA', (im.size[0], im.size[1]), BACK_COLOR)    
+        img = Image.new('RGBA', (im.size[0], im.size[1]), BACK_COLOR)
         draw_text = ImageDraw.Draw(img)
         draw_text.text((1,1), string, spacing=1, font = FNT, fill = 0)
         img2 = Image.open(IN_IMG)
 
         alphaComposited = Image.alpha_composite(img2, img)
         image = alphaComposited
-        new_image = Image.new("RGBA", image.size, BACK_COLOR) 
-        new_image.paste(image, (0, 0), image) 
+        new_image = Image.new("RGBA", image.size, BACK_COLOR)
+        new_image.paste(image, (0, 0), image)
         new_image.convert('RGB').save('RESULT.png', "PNG")
         await reply.reply(file = 'RESULT.png', force_document = True)
         os.remove('RESULT.png')

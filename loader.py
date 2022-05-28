@@ -396,7 +396,7 @@ class LoaderMod(loader.Module):
                 filter(lambda mod: None not in mod and mod[1] != "path", modules))))
         f = io.BytesIO(b)
         f.name = fname
-        await message.client.send_file(message.to_id, f, caption=f"<b>Backup completed!</b>")
+        await message.client.send_file(message.to_id, f, caption = "<b>Backup completed!</b>")
         await message.delete()
 
     @loader.owner

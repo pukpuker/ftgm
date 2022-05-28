@@ -29,10 +29,10 @@ class userinfoMod(loader.Module):
             "scam": "\nScam: <code>{}</code>",
             "fake": "\nFake: <code>{}</code>"
     }
-    general_list = { 
+    general_list = {
             "first_name": "\nFirst name: <code>{}</code>",
             "last_name": "\nLast name: <code>{}</code>",
-            "dc_id": "\nDC ID: <code>{}</code>", 
+            "dc_id": "\nDC ID: <code>{}</code>",
             "bot": "\nBot: <code>{}</code>",
             "about": "\nBio: <code>{}</code>",
             "deleted": "\nDeleted: <code>{}</code>",
@@ -57,8 +57,12 @@ class userinfoMod(loader.Module):
             "provide_user": "Provide a user to locate",
             "searching_user": "Searching for user...",
             "cannot_find": "Can't find user.",
-            "permalink_txt": "<a href='tg://user?id={uid}'>{txt}</a>",
-            "permalink_uid": "<a href='tg://user?id={uid}'>Permalink to {uid}</a>",
+
+            "permalink_txt": "<a href='tg://user?id={uid}'>\
+                        {txt}</a>",
+
+            "permalink_uid": "<a href='tg://user?id={uid}'>\
+                        Permalink to {uid}</a>",
 
             "permalink_public_channel":
                 "<a href='tg://resolve?domain={domain}'>\
@@ -75,13 +79,16 @@ class userinfoMod(loader.Module):
             "encode_cfg_doc": "Encode unicode characters"
     }
 
+
     def __init__(self):
         self.config = loader.ModuleConfig("ENCODE", False, lambda m: self.strings("encode_cfg_doc", m))
         self.replier = ''
 
+
     async def client_ready(self, client, db):
         self.client = client
         self.db = db
+
 
     async def humanize(self, list_, full, replier):
         for i in list_:
@@ -93,6 +100,7 @@ class userinfoMod(loader.Module):
 
         self.replier += replier
         return
+
 
     async def get_user(self, message, args):
         m = await message.get_reply_message()
@@ -113,9 +121,11 @@ class userinfoMod(loader.Module):
                 await utils.answer(message, self.strings("cannot_find", message))
         return full, m
 
+
     async def get_m(self, client, entity):
-        res = (await client.get_messages(await client.get_entity(entity), limit = 1))
+        res = await client.get_messages(await client.get_entity(entity), limit = 1)
         return res
+
 
     async def get_attributes(self, full):
 
@@ -145,6 +155,7 @@ class userinfoMod(loader.Module):
             return utils.escape_html(ascii(string))
         return utils.escape_html(string)
 
+
     @loader.unrestricted
     @loader.ratelimit
     async def userinfocmd(self, message):
@@ -152,7 +163,7 @@ class userinfoMod(loader.Module):
 
         args = utils.get_args(message)
         try:
-            full, m = await self.get_user(message, args)
+            full, _m = await self.get_user(message, args)
             type_, full = await self.get_attributes(full)
         except Exception as e:
             logger.debug(e)
@@ -185,17 +196,33 @@ class userinfoMod(loader.Module):
     async def permalinkcmd(self, message):
         """Get permalink to user based on ID or username"""
         args = utils.get_args(message)
-        full, m = await self.get_user(message, args)
+        full, _m = await self.get_user(message, args)
         l = E(full.to_dict())
 
         if l._ in ['Channel', 'Chat']:
             if l.username:
-                await utils.answer(message, self.strings("permalink_public_channel", message).format(domain = l.username, title = l.title))
+                await utils.answer(
+                    message,
+                    self.strings("permalink_public_channel",
+                    message).format(
+                        domain = l.username,
+                        title = l.title))
             else:
-                await utils.answer(message, self.strings("permalink_private_channel", message).format(channel_id = l.id, post = 2000001, title = l.title))
+                await utils.answer(
+                    message,
+                    self.strings("permalink_private_channel", message).format(
+                                                        channel_id = l.id,
+                                                        post = 2000001,
+                                                        title = l.title))
         else:
             if len(args) > 1:
-                await utils.answer(message, self.strings("permalink_txt", message).format(uid = l.id, txt = args[1]))
+                await utils.answer(
+                    message,
+                    self.strings("permalink_txt", message).format(
+                                                    uid = l.id,
+                                                    txt = args[1]))
             else:
-                await utils.answer(message, self.strings("permalink_uid", message).format(uid = l.id))
-
+                await utils.answer(
+                    message,
+                    self.strings("permalink_uid", message).format(
+                                                    uid = l.id))

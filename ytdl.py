@@ -17,9 +17,12 @@ class YTDLMod(loader.Module):
     }
     def __init__(self):
         self.name = self.strings['name']
+
+
     async def client_ready(self, client, db):
         self.client = client
         self.db = db
+
 
     async def ytvcmd(self, message):
         """.ytv - dowmload video media"""
@@ -27,11 +30,13 @@ class YTDLMod(loader.Module):
         reply = await message.get_reply_message()
         await ses(self, message, args, reply, '')
 
+
     async def ytacmd(self, message):
         """.ytv - dowmload audio media"""
         args = utils.get_args(message)
         reply = await message.get_reply_message()
         await ses(self, message, args, reply, 'a')
+
 
 async def ses(self, message, args, reply, type_):
     opts = {
@@ -63,8 +68,11 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri,opts)
         except Exception as e:
             print(e)
-            opts['format'] = 'ba'#[ext^=mp4][height<1400]'	#opts['format']='ba[ext^=mp3]'
-            opts['postprocessors'].append({'key': 'FFmpegExtractAudio','preferredcodec': 'm4a'})
+            opts['format'] = 'ba'
+            opts['postprocessors'].append({
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'm4a'
+            })
             a, nama = await gget(uri,opts)
 
             nama = ''.join(nama.split('.')[:-1])+'.m4a'
@@ -109,6 +117,7 @@ async def ses(self, message, args, reply, type_):
     [os.remove(i) for i in [nama, th, thumb]]
     await message.delete()
 
+
 async def gget(uri, opts):
     import yt_dlp.utils
     yt_dlp.utils.std_headers['User-Agent'] =\
@@ -120,6 +129,8 @@ async def gget(uri, opts):
         a = ydl.extract_info(uri, download = True)
         nama = ydl.prepare_filename(a)
     return a, nama
+
+
 async def get_thumb(a, m):
     thumb = a['thumbnails'][-1]['url']
     thumb_ = wget.download(thumb)
@@ -127,6 +138,8 @@ async def get_thumb(a, m):
     Image.open(thumb_).save(th, quality = 100)
     await m.edit('uplowing')
     return th, thumb_
+
+
 async def readable(a, type_):
     _ = f"""<a href={a['original_url']}>{a['title']}</a>
 ext:{a['ext']} """
