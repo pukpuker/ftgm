@@ -1,6 +1,5 @@
 # some text
 
-from re import L
 from .. import loader, utils
 import logging
 from telethon.tl.functions.users import GetFullUserRequest
