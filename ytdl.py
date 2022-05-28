@@ -5,6 +5,7 @@ from telethon.tl.types import DocumentAttributeAudio
 from yt_dlp import YoutubeDL
 from PIL import Image
 
+
 @loader.tds
 class YTDLMod(loader.Module):
     """media downlod module with yt-dlp
@@ -33,6 +34,7 @@ class YTDLMod(loader.Module):
         args = utils.get_args(message)
         reply = await message.get_reply_message()
         await ses(self, message, args, reply, 'a')
+
 
 async def ses(self, message, args, reply, type_):
     opts = {
@@ -135,6 +137,7 @@ async def get_thumb(a, m):
     Image.open(thumb_).save(th, quality = 100)
     await m.edit('uplowing')
     return th, thumb_
+
 
 async def readable(a, type_):
     _ = f"""<a href={a['original_url']}>{a['title']}</a>

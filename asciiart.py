@@ -3,8 +3,11 @@ from PIL import Image, ImageDraw, ImageFont
 import random, math, requests
 from .. import loader, utils
 
+
 def register(cb):
     cb(asciiartMod())
+
+
 class asciiartMod(loader.Module):
     """Да."""
     strings = {
@@ -70,6 +73,7 @@ async def getimg(ae):
         return False
     return True
 
+
 async def prepare(message):
     if not await getimg(message):
         reply = await message.get_reply_message()
@@ -80,6 +84,7 @@ async def prepare(message):
         IN_IMG = await fill(message, message)
 
     return IN_IMG
+
 
 async def fill(ae, m):
     if "image" in ae.file.mime_type.lower():

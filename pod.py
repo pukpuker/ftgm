@@ -2,8 +2,10 @@
 from .. import loader, utils
 import os
 
+
 def register(cb):
     cb(MSMod())
+
 
 class MSMod(loader.Module):
     """Спаммер медиа"""

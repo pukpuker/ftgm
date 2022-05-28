@@ -91,6 +91,7 @@ def unescape_percent(text):
         i += 1
     return out
 
+
 def get_git_api(url):
     m = GIT_REGEX.search(url)
     if m is None:
