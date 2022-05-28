@@ -165,7 +165,7 @@ class userinfoMod(loader.Module):
             await self.humanize(self.chat_list, full, '')
 
         await utils.answer(message, f'<u><b>{type_}</u> Info:</b>'+self.replier)
-        
+
         # reset data
         self.replier=''
 
