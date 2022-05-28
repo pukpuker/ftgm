@@ -1,4 +1,4 @@
-# requires: wget 
+# requires: wget
 from .. import loader, utils
 import os
 
@@ -44,10 +44,10 @@ class MSMod(loader.Module):
                 for _ in range(count):
                     await message.respond(file = b, reply_to = reply)
             else:
-                 mess = await message.respond(file = b, reply_to = reply)
-                 heshik = mess.file.id
-                 for _ in range(count-1):
-                     await message.respond(file = heshik, reply_to = reply)
+                mess = await message.respond(file = b, reply_to = reply)
+                heshik = mess.file.id
+                for _ in range(count-1):
+                    await message.respond(file = heshik, reply_to = reply)
             os.remove(b)
 
         if not reply.media:

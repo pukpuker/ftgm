@@ -51,8 +51,8 @@ async def ses(self, message, args, reply, type_):
     if args:
         thumb_ = 'thumb' in args
         if uri := args[0]:
-            if 'http' in uri:pass
-            else:uri = text
+            if 'http' in uri: pass
+            else: uri = text
     else:
         thumb_ = False
         uri = text
@@ -60,7 +60,9 @@ async def ses(self, message, args, reply, type_):
 
     if type_ == 'a':
         try:
-            opts.update({'format':'ba[ext^=m4a]'})
+            opts.update({
+                'format':'ba[ext^=m4a]'
+            })
             a, nama = await gget(uri,opts)
         except Exception as e:
             print(e)
