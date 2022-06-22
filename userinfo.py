@@ -136,9 +136,9 @@ class userinfoMod(loader.Module):
                 return
         return full, m
 
-    async def get_m(self, client, entity):
-        res = await client.get_messages(
-            await client.get_entity(entity), limit = 1)
+    async def get_m(self, entity):
+        res = await self.client.get_messages(
+            await self.client.get_entity(entity), limit = 1)
         return res
 
     async def get_attributes(self, full):
