@@ -37,10 +37,15 @@ class YTDLMod(loader.Module):
 
 
 async def ses(self, message, args, reply, type_):
+    # greet https://stackoverflow.com/a/38667103
     opts = {
         'embed-thumbnail': True,
+        'no-check-format': True,
+        #'convert-thumbnail': 'png',
+        'writethumbnail': True,
         'postprocessors': [
             {'key': 'SponsorBlock'},
+            {'key': 'EmbedThumbnail'},
             {
                 'key':
                     'ModifyChapters',
@@ -55,7 +60,8 @@ async def ses(self, message, args, reply, type_):
                     ]
             }
         ],
-        #'no-check-certificate': True, 'writethumbnail': True,
+        #'no-check-certificate': True,
+        'add-metadata': True,
         'prefer_ffmpeg': True,
         'geo_bypass': True,
         'outtmpl': '%(title)s.%(ext)s',
