@@ -21,7 +21,8 @@ class E:
 
 @loader.tds
 class userinfoMod(loader.Module):
-    """Tells you about people"""
+    """Tells you about people and chats
+    subscribe @uwun3ss plox"""
 
     common_list = {
             "id": "\nID: <code>{}</code>",
@@ -54,9 +55,9 @@ class userinfoMod(loader.Module):
             "name": "userinfo",
             "find_error": "<b>Couldn't find that user.</b>",
             "no_args_or_reply": "<b>No args or reply was provided.</b>",
-            "provide_user": "Provide a user to locate",
-            "searching_user": "Searching for user...",
-            "cannot_find": "Can't find user.",
+            "provide_user": "<b>Provide a user to locate</b>",
+            "searching_user": "<code>Searching for user...</code>",
+            "cannot_find": "<b>Can't find user</b>",
 
             "permalink_txt": "<a href='tg://user?id={uid}'>\
                         {txt}</a>",
@@ -83,7 +84,8 @@ class userinfoMod(loader.Module):
         self.config = loader.ModuleConfig(
             "ENCODE",
             False,
-            lambda m: self.strings("encode_cfg_doc", m))
+            lambda m: self.strings("encode_cfg_doc", m)
+            )
         self.replier = ''
 
     async def client_ready(self, client, db):
@@ -107,7 +109,14 @@ class userinfoMod(loader.Module):
             full = await self.client.get_entity(m.from_id)
         else:
             if not args:
-                await utils.answer(message, self.strings("no_args_or_reply", message))
+                await utils.answer(
+                    message,
+                    self.strings(
+                        "no_args_or_reply",
+                        message
+                        )
+                    )
+                return
             try:
                 if l := args[0]:
                     if '-100' in l: l = l[4:]
@@ -119,7 +128,12 @@ class userinfoMod(loader.Module):
                 logger.error(e)
                 await utils.answer(
                     message,
-                    self.strings("cannot_find", message))
+                    self.strings(
+                        "cannot_find",
+                        message
+                        )
+                    )
+                return
         return full, m
 
     async def get_m(self, client, entity):
@@ -167,6 +181,7 @@ class userinfoMod(loader.Module):
             type_, full = await self.get_attributes(full)
         except Exception as e:
             logger.debug(e)
+            return
         # a little bit sesuritical
         if type_ == 'User'\
             and 'insecure' not in args\
@@ -212,19 +227,34 @@ class userinfoMod(loader.Module):
             else:
                 await utils.answer(
                     message,
-                    self.strings("permalink_private_channel", message).format(
-                                                        channel_id = l.id,
-                                                        post = 2000001,
-                                                        title = l.title))
+                    self.strings(
+                        "permalink_private_channel",
+                        message
+                        ).format(
+                            channel_id = l.id,
+                            post = 2000001,
+                            title = l.title
+                            )
+                        )
         else:
             if len(args) > 1:
                 await utils.answer(
                     message,
-                    self.strings("permalink_txt", message).format(
-                                                    uid = l.id,
-                                                    txt = args[1]))
+                    self.strings(
+                        "permalink_txt",
+                        message
+                        ).format(
+                            uid = l.id,
+                            txt = args[1]
+                            )
+                        )
             else:
                 await utils.answer(
                     message,
-                    self.strings("permalink_uid", message).format(
-                                                    uid = l.id))
+                    self.strings(
+                        "permalink_uid",
+                        message
+                        ).format(
+                            uid = l.id
+                            )
+                        )

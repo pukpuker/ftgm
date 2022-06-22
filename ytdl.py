@@ -12,7 +12,8 @@ class YTDLMod(loader.Module):
     usage:
     .ytv +- thumb + reply
     .ytv url +- thumb
-    same with yta"""
+    same with yta
+    subscribe @uwun3ss plox"""
     strings = {
         "name": "YTDL"
     }
