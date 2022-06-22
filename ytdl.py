@@ -100,19 +100,19 @@ async def ses(self, message, args, reply, type_):
         if thumb_: await self.client.send_file(
             message.to_id,
             th,
-            force_document = False)
+            force_document=False)
 
         await self.client.send_file(
             message.to_id,
             nama,
-            supports_streaming = True,
-            reply_to = reply.id if reply else None,
-            thumb = th,
-            attributes = [
-            DocumentAttributeAudio(duration = int(a['duration']),
-                title = str(a['title']),
-                performer = _)],
-            caption = await readable(a, type_))
+            supports_streaming=True,
+            reply_to=reply.id if reply else None,
+            thumb=th,
+            attributes=[
+            DocumentAttributeAudio(duration=int(a['duration']),
+                title=str(a['title']),
+                performer=_)],
+            caption=await readable(a, type_))
 
     else:
         try:
@@ -129,7 +129,7 @@ async def ses(self, message, args, reply, type_):
         if thumb_: await self.client.send_file(
             message.to_id,
             th,
-            force_document = False)
+            force_document=False)
 
         await self.client.send_file(
             message.to_id,
