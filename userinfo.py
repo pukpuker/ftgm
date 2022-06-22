@@ -138,7 +138,7 @@ class userinfoMod(loader.Module):
 
     async def get_m(self, entity):
         res = await self.client.get_messages(
-            await self.client.get_entity(entity), limit = 1)
+            await self.client.get_entity(entity), limit=1)
         return res
 
     async def get_attributes(self, full):
@@ -243,8 +243,8 @@ class userinfoMod(loader.Module):
                         "permalink_txt",
                         message
                         ).format(
-                            uid = l.id,
-                            txt = args[1]
+                            uid=l.id,
+                            txt=args[1]
                             )
                         )
             else:
@@ -254,6 +254,6 @@ class userinfoMod(loader.Module):
                         "permalink_uid",
                         message
                         ).format(
-                            uid = l.id
+                            uid=l.id
                             )
                         )
