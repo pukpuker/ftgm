@@ -82,7 +82,7 @@ async def gete(self, u):
 
 async def getpfp(self, message, entity, limit):
     doc = False
-    a = self.client.iter_profile_photos(entity, limit = limit)
+    a = self.client.iter_profile_photos(entity, limit=limit)
     b = []; f = []
     async for _ in a:
         b.append(_)

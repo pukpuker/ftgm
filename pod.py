@@ -44,17 +44,17 @@ class MSMod(loader.Module):
             b = await reply.download_media()
             if reply.photo:
                 for _ in range(count):
-                    await message.respond(file = b, reply_to = reply)
+                    await message.respond(file=b, reply_to=reply)
             else:
-                mess = await message.respond(file = b, reply_to = reply)
+                mess = await message.respond(file=b, reply_to=reply)
                 heshik = mess.file.id
                 for _ in range(count-1):
-                    await message.respond(file = heshik, reply_to = reply)
+                    await message.respond(file=heshik, reply_to=reply)
             os.remove(b)
 
         if not reply.media:
             await message.edit("%%%")
             for _ in range(count):
-                await message.respond(reply.text, reply_to = reply)
+                await message.respond(reply.text, reply_to=reply)
 
         await message.delete()
