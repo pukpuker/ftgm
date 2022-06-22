@@ -134,11 +134,11 @@ async def ses(self, message, args, reply, type_):
         await self.client.send_file(
             message.to_id,
             nama,
-            thumb = th,
-            force_document = False,
-            reply_to = reply.id if reply else None,
-            supports_streaming = True,
-            caption = await readable(a, type_))
+            thumb=th,
+            force_document=False,
+            reply_to=reply.id if reply else None,
+            supports_streaming=True,
+            caption=await readable(a, type_))
 
     [os.remove(i) for i in [nama, th, thumb]]
     await message.delete()
@@ -152,7 +152,7 @@ async def gget(uri, opts):
                                         "Google Chrome";v="102"'
 
     with YoutubeDL(opts) as ydl:
-        a = ydl.extract_info(uri, download = True)
+        a = ydl.extract_info(uri, download=True)
         nama = ydl.prepare_filename(a)
     return a, nama
 
@@ -160,7 +160,7 @@ async def get_thumb(a, m):
     thumb = a['thumbnails'][-1]['url']
     thumb_ = wget.download(thumb)
     th = f"{a['id']}.jpg"
-    Image.open(thumb_).save(th, quality = 100)
+    Image.open(thumb_).save(th, quality=100)
     await m.edit('uplowing')
     return th, thumb_
 
