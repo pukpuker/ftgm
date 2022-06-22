@@ -221,8 +221,8 @@ class userinfoMod(loader.Module):
                     message,
                     self.strings("permalink_public_channel",
                     message).format(
-                        domain = l.username,
-                        title = l.title))
+                        domain=l.username,
+                        title=l.title))
             else:
                 await utils.answer(
                     message,
@@ -230,9 +230,9 @@ class userinfoMod(loader.Module):
                         "permalink_private_channel",
                         message
                         ).format(
-                            channel_id = l.id,
-                            post = 2000001,
-                            title = l.title
+                            channel_id=l.id,
+                            post=2000001,
+                            title=l.title
                             )
                         )
         else:
