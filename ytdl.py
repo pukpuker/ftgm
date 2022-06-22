@@ -62,7 +62,6 @@ async def ses(self, message, args, reply, type_):
             }
         ],
         #'no-check-certificate': True,
-        'add-metadata': True,
         'prefer_ffmpeg': True,
         'geo_bypass': True,
         'outtmpl': '%(title)s.%(ext)s',
