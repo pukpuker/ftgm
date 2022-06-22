@@ -105,35 +105,31 @@ class userinfoMod(loader.Module):
 
     async def get_user(self, message, args):
         m = await message.get_reply_message()
-        if not(None is m):
-            full = await self.client.get_entity(m.from_id)
-        else:
-            if not args:
-                await utils.answer(
-                    message,
-                    self.strings(
-                        "no_args_or_reply",
-                        message
+        if (m is None):
+            if args and (args[0] == 'me'):
+                full = await self.client.get_entity(message.from_id)
+            elif not args:
+                full = await self.client.get_entity(message.chat.id)
+        elif m:
+            if args:
+                try:
+                    if l := args[0]:
+                        if '-100' in l: l = l[4:]
+                        if l.isdigit(): entity = int(l)
+                        else: entity = l
+                    full = await self.client.get_entity(entity)
+                except Exception as e:
+                    logger.error(e)
+                    await utils.answer(
+                        message,
+                        self.strings(
+                            "cannot_find",
+                            message
+                            )
                         )
-                    )
-                return
-            try:
-                if l := args[0]:
-                    if '-100' in l: l = l[4:]
-                    if l.isdigit(): entity = int(l)
-                    else: entity = l
-
-                full = await self.client.get_entity(entity)
-            except Exception as e:
-                logger.error(e)
-                await utils.answer(
-                    message,
-                    self.strings(
-                        "cannot_find",
-                        message
-                        )
-                    )
-                return
+                    return
+            else:
+                full = await self.client.get_entity(m.from_id)
         return full, m
 
     async def get_m(self, entity):
@@ -172,7 +168,7 @@ class userinfoMod(loader.Module):
     @loader.unrestricted
     @loader.ratelimit
     async def userinfocmd(self, message):
-        """userinfo [username or id] [insecure]\
+        """userinfo [ {username} or {id} or {me} ] [ insecure ]\
         (optional flag, type if u want to show ur contact's name to others)"""
         args = utils.get_args(message)
         try:
