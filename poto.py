@@ -41,7 +41,7 @@ class GetPPMod(loader.Module):
                 int(args[0])if str(args[0]).isdigit() else str(args[0])
             )
             limit = None if id>limit else limit
-            a = self.client.iter_profile_photos(entity, limit = limit)
+            a = self.client.iter_profile_photos(entity, limit=limit)
             b = []; f = []
             async for _ in a:
                 b.append(_)
@@ -105,5 +105,5 @@ async def getpfp(self, message, entity, limit):
 
     await self.client.send_file(
         message.to_id,
-        file = f,
-        force_document = doc)
+        file=f,
+        force_document=doc)
