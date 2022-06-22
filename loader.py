@@ -431,7 +431,7 @@ class LoaderMod(loader.Module):
         await message.client.send_file(
             message.to_id,
             f,
-            caption = "<b>Backup completed!</b>")
+            caption="<b>Backup completed!</b>")
         await message.delete()
 
     @loader.owner

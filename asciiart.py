@@ -50,7 +50,7 @@ class asciiartMod(loader.Module):
 
         img = Image.new('RGBA', (im.size[0], im.size[1]), BACK_COLOR)
         draw_text = ImageDraw.Draw(img)
-        draw_text.text((1, 1), string, spacing=1, font = FNT, fill = 0)
+        draw_text.text((1, 1), string, spacing=1, font=FNT, fill=0)
         img2 = Image.open(IN_IMG)
 
         alphaComposited = Image.alpha_composite(img2, img)
@@ -58,14 +58,14 @@ class asciiartMod(loader.Module):
         new_image = Image.new("RGBA", image.size, BACK_COLOR)
         new_image.paste(image, (0, 0), image)
         new_image.convert('RGB').save('RESULT.png', "PNG")
-        await reply.reply(file = 'RESULT.png', force_document = True)
+        await reply.reply(file='RESULT.png', force_document=True)
         os.remove('RESULT.png')
         await message.delete()
         await message.edit("Там пиздец, фото нет")
 
     async def pngcmd(self, message):
         name = self.name
-        await message.reply(file = await prepare(message))
+        await message.reply(file=await prepare(message))
         await message.delete()
 
 
