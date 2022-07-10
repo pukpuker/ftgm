@@ -87,6 +87,7 @@ async def ses(self, message, args, reply, type_):
         except Exception as e:
             print(e)
             del opts['embed-thumbnail']
+            del opts['writethumbnail']
             opts['format'] = 'ba'
             opts['postprocessors'].append({
                 'key': 'FFmpegExtractAudio',
