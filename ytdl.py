@@ -86,6 +86,7 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
+            del opts['embed-thumbnail']
             opts['format'] = 'ba'
             opts['postprocessors'].append({
                 'key': 'FFmpegExtractAudio',
