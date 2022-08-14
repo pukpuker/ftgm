@@ -28,7 +28,7 @@ class YTDLMod(loader.Module):
         """.ytv - dowmload video media"""
         args = utils.get_args(message)
         reply = await message.get_reply_message()
-        await ses(self, message, args, reply, '')
+        await ses(self, message, args, reply, 'v')
 
     async def ytacmd(self, message):
         """.ytv - dowmload audio media"""
@@ -86,17 +86,15 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
-            del opts['embed-thumbnail']
-            del opts['writethumbnail']
-            opts['format'] = 'ba'
-            opts['postprocessors'].append({
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'm4a'
-            })
+            del opts['format']
+            #del opts['embed-thumbnail']
+            #del opts['writethumbnail']
+            #opts['format'] = 'ba'
+            #opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3'})
             a, nama = await gget(uri, opts)
 
-            nama = ''.join(nama.split('.')[:-1]) + '.m4a'
-        _ = a['uploader'] if 'uploader' in a else 'umknown'
+            #nama = ''.join(nama.split('.')[:-1]) + '.mp3'
+        _ = a['uploader'] if 'uploader' in a else None#'umknown'
 
         th, thumb = await get_thumb(a, message)
         if thumb_: await self.client.send_file(
@@ -116,10 +114,10 @@ async def ses(self, message, args, reply, type_):
                 performer=_)],
             caption=await readable(a, type_))
 
-    else:
+    elif type_ == 'v':
         try:
             opts.update({
-                'format': 'bestvideo[ext^=mp4][height<1400][fps>30]+ba[ext^=m4a]'
+                'format': 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
             })
             a, nama = await gget(uri, opts)
         except Exception as e:
@@ -148,6 +146,8 @@ async def ses(self, message, args, reply, type_):
 
 async def gget(uri, opts):
     import yt_dlp.utils
+    #yt_dlp.utils.std_headers['User-Agent'] = ""
+    #yt_dlp.utils.std_headers['User-Agent'] = 'facebookexternalhit/1.1'
     yt_dlp.utils.std_headers['User-Agent'] =\
                                         '" Not A;Brand";v="99",\
                                         "Chromium";v="102",\
