@@ -117,7 +117,7 @@ async def ses(self, message, args, reply, type_):
     elif type_ == 'v':
         try:
             opts.update({
-                'format': 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
+                'format': 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]' # 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
             })
             a, nama = await gget(uri, opts)
         except Exception as e:
