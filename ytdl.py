@@ -1,4 +1,5 @@
 # requires: yt-dlp Pillow cryptg wget
+from pathlib import Path
 import os, wget
 from .. import loader, utils
 from telethon.tl.types import DocumentAttributeAudio
@@ -140,7 +141,7 @@ async def ses(self, message, args, reply, type_):
             supports_streaming=True,
             caption=await readable(a, type_))
 
-    [os.remove(i) for i in [nama, th, thumb]]
+    [Path(i).unlink(missing_ok=True) for i in [nama, th, thumb]]
     await message.delete()
 
 
