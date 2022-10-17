@@ -122,7 +122,7 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
-            opts['format'] = 'best[ext^=mp4][height<1400]/best'
+            opts['format'] = 'best[ext^=mp4][height<1400]\best'
             a, nama = await gget(uri, opts)
 
         th, thumb = await get_thumb(a, message)
