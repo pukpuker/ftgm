@@ -159,12 +159,14 @@ async def gget(uri, opts):
     return a, nama
 
 async def get_thumb(a, m):
-    thumb = a['thumbnails'][-1]['url']
-    thumb_ = wget.download(thumb)
-    th = f"{a['id']}.jpg"
-    Image.open(thumb_).save(th, quality=100)
-    await m.edit('uplowing')
-    return th, thumb_
+    try:
+        thumb = a['thumbnails'][-1]['url']
+        thumb_ = wget.download(thumb)
+        th = f"{a['id']}.jpg"
+        Image.open(thumb_).save(th, quality=100)
+        await m.edit('uplowing')
+        return th, thumb_
+    except Exception: return False, False
 
 
 async def readable(a, type_):
