@@ -178,6 +178,6 @@ ext:{a.get('ext', None)} """
     else:
         try: fps = a['fps']
         except: fps = None
-        _ += f"res:{a['resolution']}"
+        _ += f"res:{a.get('resolution', None)}"
         _ += f"fps:{fps}" if fps else ''
     return _
