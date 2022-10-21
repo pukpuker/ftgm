@@ -172,7 +172,7 @@ async def get_thumb(a, m):
 
 async def readable(a, type_):
     _ = f"""<a href={a['original_url']}>{a['title']}</a>
-ext:{a['ext']} """
+ext:{a.get('ext', None)} """
 
     if type_ == 'a': _ += f"""bitrate:{a['abr']}Kb """
     else:
