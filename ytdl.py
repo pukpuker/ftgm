@@ -82,17 +82,18 @@ async def ses(self, message, args, reply, type_):
     if type_ == 'a':
         try:
             opts.update({
-                'format': 'ba[ext^=m4a]/best'
+                'format': 'bestaudio[ext=m4a]/best'
             })
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
-            del opts['format']
+            #del opts['format']
+            opts['format'] = 'bestaudio[ext=m4a]/best'
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
             #del opts['embed-thumbnail']
             #del opts['writethumbnail']
             #opts['format'] = 'ba'
-            #opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3'})
+            opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a'})
             a, nama = await gget(uri, opts)
 
             #nama = ''.join(nama.split('.')[:-1]) + '.mp3'
