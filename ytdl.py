@@ -45,6 +45,7 @@ async def ses(self, message, args, reply, type_):
         'no-check-format': True,
         'no-abort-on-error': True,
         'ignore-errors': True,
+        'ciw': True,
         #'convert-thumbnail': 'png',
         'writethumbnail': True,
         'postprocessors': [
