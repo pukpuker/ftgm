@@ -43,9 +43,6 @@ async def ses(self, message, args, reply, type_):
     opts = {
         'embed-thumbnail': True,
         'no-check-format': True,
-        'no-abort-on-error': True,
-        'ignore-errors': True,
-        'ciw': True,
         #'convert-thumbnail': 'png',
         'writethumbnail': True,
         'postprocessors': [
@@ -91,6 +88,7 @@ async def ses(self, message, args, reply, type_):
         except Exception as e:
             print(e)
             del opts['format']
+            opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
             #del opts['embed-thumbnail']
             #del opts['writethumbnail']
             #opts['format'] = 'ba'
@@ -126,6 +124,8 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
+            opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
+
             opts['format'] = 'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
             a, nama = await gget(uri, opts)
 
