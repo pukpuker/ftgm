@@ -126,7 +126,7 @@ async def ses(self, message, args, reply, type_):
             print(e)
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
 
-            #opts['format'] = 'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
+            opts['format'] = 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]/best'#'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
             a, nama = await gget(uri, opts)
 
         th, thumb = await get_thumb(a, message)
