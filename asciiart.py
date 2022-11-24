@@ -20,9 +20,7 @@ class asciiartMod(loader.Module):
         self.name = self.strings['name']
         self._me = None
         self._ratelimit = []
-        self.font_url =\
-            "https://raw.githubusercontent.com/monolit/fonts/main/\
-            MiLanProVF.ttf"
+        self.font_url = "https://raw.githubusercontent.com/monolit/fonts/main/MiLanProVF.ttf"
 
     async def client_ready(self, client, db):
         self.client = client
@@ -57,7 +55,7 @@ class asciiartMod(loader.Module):
         image = alphaComposited
         new_image = Image.new("RGBA", image.size, BACK_COLOR)
         new_image.paste(image, (0, 0), image)
-        new_image.convert('RGB').save('RESULT.png', "PNG")
+        new_image.convert('RGBA').save('RESULT.jpg', "JPEG", quality=100)
         await reply.reply(file='RESULT.png', force_document=True)
         os.remove('RESULT.png')
         await message.delete()
