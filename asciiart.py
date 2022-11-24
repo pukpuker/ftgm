@@ -55,7 +55,7 @@ class asciiartMod(loader.Module):
         image = alphaComposited
         new_image = Image.new("RGBA", image.size, BACK_COLOR)
         new_image.paste(image, (0, 0), image)
-        new_image.convert('RGBA').save('RESULT.jpg', "JPEG", quality=100)
+        new_image.convert('RGB').save('RESULT.jpg', "JPEG", quality=100)
         await reply.reply(file='RESULT.png', force_document=True)
         os.remove('RESULT.png')
         await message.delete()
