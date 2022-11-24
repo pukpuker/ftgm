@@ -35,7 +35,7 @@ class asciiartMod(loader.Module):
         await message.edit("<i>Какаю Путена ...</i>")
         BACK_COLOR = "BLACK"
         IN_IMG=await prepare(message)
-        fontik=requests.get().content
+        fontik=requests.get(self.font_url).content
         FNT=ImageFont.truetype(io.BytesIO(fontik), 7)
         im = Image.open(IN_IMG)
         (width, height) = im.size
