@@ -145,7 +145,9 @@ async def ses(self, message, args, reply, type_):
             supports_streaming=True,
             caption=await readable(a, type_))
 
-    [Path(i).unlink(missing_ok=True) for i in [nama, th, thumb]]
+    for i in [nama, th, thumb]:
+        try: Path(i).unlink(missing_ok=True)
+        except Exception: pass
     await message.delete()
 
 
