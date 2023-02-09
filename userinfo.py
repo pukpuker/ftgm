@@ -167,7 +167,7 @@ class userinfoMod(loader.Module):
 
     @loader.unrestricted
     @loader.ratelimit
-    async def userinfocmd(self, message):
+    async def uinfocmd(self, message):
         """userinfo [ {username} or {id} or {me} ] [ insecure ]\
         (optional flag, type if u want to show ur contact's name to others)"""
         args = utils.get_args(message)
