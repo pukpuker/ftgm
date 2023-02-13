@@ -77,7 +77,7 @@ async def ses(self, message, args, reply, type_):
     else:
         thumb_ = False
         uri = text
-    message = await utils.answer(message, "loading")
+    message = (await utils.answer(message, "loading"))[0]
 
     if type_ == 'a':
         try:
