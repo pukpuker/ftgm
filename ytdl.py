@@ -14,7 +14,7 @@ class YTDLMod(loader.Module):
     .ytv +- thumb + reply
     .ytv url +- thumb
     same with yta
-    subscribe @uwun3ss plox"""
+    subscribe t.me/uwun3ss plox"""
     strings = {
         "name": "YTDL"
     }
@@ -77,7 +77,7 @@ async def ses(self, message, args, reply, type_):
     else:
         thumb_ = False
         uri = text
-    await message.edit("loading")
+    message = await utils.answer(message, "loading")
 
     if type_ == 'a':
         try:
@@ -101,12 +101,12 @@ async def ses(self, message, args, reply, type_):
 
         th, thumb = await get_thumb(a, message)
         if thumb_: await self.client.send_file(
-            message.to_id,
+            message.chat_id,
             th,
             force_document=False)
 
         await self.client.send_file(
-            message.to_id,
+            message.chat_id,
             nama,
             supports_streaming=True,
             reply_to=reply.id if reply else None,
@@ -132,12 +132,12 @@ async def ses(self, message, args, reply, type_):
 
         th, thumb = await get_thumb(a, message)
         if thumb_: await self.client.send_file(
-            message.to_id,
+            message.chat_id,
             th,
             force_document=False)
 
         await self.client.send_file(
-            message.to_id,
+            message.chat_id,
             nama,
             thumb=th,
             force_document=False,
@@ -148,17 +148,14 @@ async def ses(self, message, args, reply, type_):
     for i in [nama, th, thumb]:
         try: Path(i).unlink(missing_ok=True)
         except Exception: pass
-    await message.delete()
+    if message.out: await message.delete()
 
 
 async def gget(uri, opts):
     import yt_dlp.utils
     #yt_dlp.utils.std_headers['User-Agent'] = ""
     #yt_dlp.utils.std_headers['User-Agent'] = 'facebookexternalhit/1.1'
-    yt_dlp.utils.std_headers['User-Agent'] =\
-                                        '" Not A;Brand";v="99",\
-                                        "Chromium";v="102",\
-                                        "Google Chrome";v="102"'
+    yt_dlp.utils.std_headers['User-Agent'] = "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.115"
 
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download=True)
@@ -184,6 +181,6 @@ ext:{a.get('ext', None)} """
     else:
         try: fps = a['fps']
         except: fps = None
-        _ += f"res:{a.get('resolution', None)}"
-        _ += f"fps:{fps}" if fps else ''
+        _ += f"res:{a.get('resolution', None)} "
+        _ += f"fps:{fps} " if fps else ''
     return _
