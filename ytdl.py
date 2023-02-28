@@ -1,6 +1,6 @@
 # requires: yt-dlp Pillow cryptg wget
 from pathlib import Path
-import os, wget
+import wget
 from .. import loader, utils
 from telethon.tl.types import DocumentAttributeAudio
 from yt_dlp import YoutubeDL
