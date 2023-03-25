@@ -153,9 +153,9 @@ async def ses(self, message, args, reply, type_):
 
 async def gget(uri, opts):
     import yt_dlp.utils
-    #yt_dlp.utils.std_headers['User-Agent'] = ""
-    #yt_dlp.utils.std_headers['User-Agent'] = 'facebookexternalhit/1.1'
-    yt_dlp.utils.std_headers['User-Agent'] = "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.115"
+    # yt_dlp.utils.std_headers['User-Agent'] = ""
+    # yt_dlp.utils.std_headers['User-Agent'] = 'facebookexternalhit/1.1'
+    # yt_dlp.utils.std_headers['User-Agent'] = "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.115"
 
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download=True)
