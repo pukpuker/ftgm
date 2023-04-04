@@ -28,29 +28,29 @@ class HelpMod(loader.Module):
                 if mod.strings("name", message).lower() == args.lower():
                     module = mod
             if module is None:
-                return await utils.answer(message, self.strings("bad_module", message))
+                return await utils.answer(message, self.strings["bad_module"])
             commands = {name: func for name, func in module.commands.items()
                         if await self.allmodules.check_security(message, func)}
             if not commands:
-                return await utils.answer(message, self.strings("undoc_cmd", message))
+                return await utils.answer(message, self.strings["undoc_cmd"])
             # Translate the format specification and the module separately
             try:
                 name = module.strings("name", message)
             except KeyError:
                 name = getattr(module, "name", "ERROR")
-            reply = self.strings("single_mod_header", message).format(utils.escape_html(name))
+            reply = self.strings["single_mod_header"].format(utils.escape_html(name))
             if module.__doc__:
                 reply += "\n" + "\n".join("  " + t for t in utils.escape_html(inspect.getdoc(module)).split("\n"))
             else:
                 logger.warning("Module %s is missing docstring!", module)
             for name, fun in commands.items():
-                reply += self.strings("single_cmd", message).format(name)
+                reply += self.strings["single_cmd"].format(name)
                 if fun.__doc__:
                     reply += utils.escape_html("\n".join("  " + t for t in inspect.getdoc(fun).split("\n")))
                 else:
-                    reply += self.strings("undoc_cmd", message)
+                    reply += self.strings["undoc_cmd"]
         else:
-            reply = self.strings("all_header", message).format(pref=pref)
+            reply = self.strings["all_header"].format(pref=pref)
             for mod in self.allmodules.modules:
                 try:
                     name = mod.strings("name", message)
@@ -61,7 +61,7 @@ class HelpMod(loader.Module):
                     "Raphielgang Configuration Placeholder",
                     "Uniborg configuration placeholder",
                 ]:
-                    _temp = self.strings("mod_tmpl", message).format(name)
+                    _temp = self.strings["mod_tmpl"].format(name)
                     first = True
                     commands = [name for name, func in mod.commands.items()
                                 if await self.allmodules.check_security(message, func)]
@@ -69,7 +69,7 @@ class HelpMod(loader.Module):
                         continue
                     reply += _temp
                     for cmd in commands:
-                        reply += self.strings("cmd_tmpl", message).format(cmd)                 
+                        reply += self.strings["cmd_tmpl"].format(cmd)                 
         await utils.answer(message, reply)
 
 
@@ -88,7 +88,7 @@ class HelpMod(loader.Module):
             commands = [pref + name for name, func in mod.commands.items()
                         if await self.allmodules.check_security(message, func)]
             reply += ' || '.join(
-                [self.strings("cmd_tmpl", message).format(cmd) for cmd in commands]
+                [self.strings["cmd_tmpl"].format(cmd) for cmd in commands]
                 )
 
         await utils.answer(message, reply)
