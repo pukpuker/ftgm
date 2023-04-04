@@ -79,17 +79,16 @@ class HelpMod(loader.Module):
 
 
     async def hcmd(self, message):
-        """.help [module]"""
+        """.h [module]"""
         args = utils.get_args_raw(message)
         reply = f'mods count:\t{len(self.allmodules.modules)}\n';lister=[]
         pref = self.db.get('friendly-telegram.main', 'command_prefix', ['.'])[0]
-        commands = [list(i.commands.keys()) for i in self.allmodules.modules]
-        for cmd in commands:
-            temp = ' '.join(cmd)
-            first=temp not in lister
-            if first:
-                lister.append(f'<b> {pref}</b>'.join(cmd))
-                first = False
-            else:
-                pass
-        await utils.answer(message, reply + ' || '.join(lister))
+        # commands = [list(i.commands.keys()) for i in self.allmodules.modules]
+        for mod in self.allmodules.modules:
+            commands = [pref + name for name, func in mod.commands.items()
+                            if await self.allmodules.check_security(message, func)]
+            reply += ' || '.join(
+                [self.strings("cmd_tmpl", message).format(cmd) for cmd in commands]
+                )
+
+        await utils.answer(message, reply)
