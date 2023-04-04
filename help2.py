@@ -86,7 +86,7 @@ class HelpMod(loader.Module):
         commands = [list(i.commands.keys()) for i in self.allmodules.modules]
         for cmd in commands:
             temp = ' '.join(cmd)
-            first=not temp in lister
+            first=temp not in lister
             if first:
                 lister.append(f'<b> {pref}</b>'.join(cmd))
                 first = False
