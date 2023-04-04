@@ -1,4 +1,5 @@
-import inspect, logging
+import inspect
+import logging
 from .. import loader, utils
 
 logger = logging.getLogger(__name__)
