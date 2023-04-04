@@ -1,6 +1,5 @@
 import inspect, logging
-from telethon.tl.functions.channels import JoinChannelRequest
-from .. import loader, utils, main, security
+from .. import loader, utils
 
 logger = logging.getLogger(__name__)
 
