@@ -66,8 +66,7 @@ class HelpMod(loader.Module):
                                 if await self.allmodules.check_security(message, func)]
                     if not commands:
                         continue
-                    else:
-                        reply += _temp
+                    reply += _temp
                     for cmd in commands:
                         reply += self.strings("cmd_tmpl", message).format(cmd)                 
         await utils.answer(message, reply)
