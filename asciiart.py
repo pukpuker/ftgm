@@ -1,6 +1,9 @@
-import io, os
+import io
+import os
 from PIL import Image, ImageDraw, ImageFont
-import random, math, requests
+import random
+import math
+import requests
 from .. import loader, utils
 
 
