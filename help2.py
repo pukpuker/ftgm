@@ -28,8 +28,11 @@ class HelpMod(loader.Module):
                 if mod.strings("name", message).lower() == args.lower():
                     module = mod
             if module is None:
-                await utils.answer(message, self.strings("bad_module", message))
-                return
+                return await utils.answer(message, self.strings("bad_module", message))
+            commands = {name: func for name, func in module.commands.items()
+                        if await self.allmodules.check_security(message, func)}
+            if not commands:
+                return await utils.answer(message, self.strings("undoc_cmd", message))
             # Translate the format specification and the module separately
             try:
                 name = module.strings("name", message)
@@ -40,8 +43,6 @@ class HelpMod(loader.Module):
                 reply += "\n" + "\n".join("  " + t for t in utils.escape_html(inspect.getdoc(module)).split("\n"))
             else:
                 logger.warning("Module %s is missing docstring!", module)
-            commands = {name: func for name, func in module.commands.items()
-                        if await self.allmodules.check_security(message, func)}
             for name, fun in commands.items():
                 reply += self.strings("single_cmd", message).format(name)
                 if fun.__doc__:
