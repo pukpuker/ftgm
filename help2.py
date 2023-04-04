@@ -69,7 +69,7 @@ class HelpMod(loader.Module):
                         continue
                     reply += _temp
                     for cmd in commands:
-                        reply += self.strings["cmd_tmpl"].format(cmd)                 
+                        reply += self.strings["cmd_tmpl"].format(cmd)
         await utils.answer(message, reply)
 
 
