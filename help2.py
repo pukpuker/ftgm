@@ -92,4 +92,4 @@ class HelpMod(loader.Module):
                 first = False
             else:
                 pass
-        await message.edit(reply + ' || '.join(lister))
+        await utils.answer(message, reply + ' || '.join(lister))
