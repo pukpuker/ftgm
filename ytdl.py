@@ -81,9 +81,9 @@ async def ses(self, message, args, reply, type_):
         uri = text
     message = await utils.answer(message, "loading")
     if isinstance(message, Message):
-    	pass
+        pass
     elif isinstance(message, list):
-    	message = message[0]
+        message = message[0]
 
     if type_ == 'a':
         try:
@@ -93,16 +93,11 @@ async def ses(self, message, args, reply, type_):
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
-            #del opts['format']
             opts['format'] = 'bestaudio[ext=m4a]/best'
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
-            #del opts['embed-thumbnail']
-            #del opts['writethumbnail']
-            #opts['format'] = 'ba'
             opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a'})
             a, nama = await gget(uri, opts)
 
-            #nama = ''.join(nama.split('.')[:-1]) + '.mp3'
         _ = a['uploader'] if 'uploader' in a else None#'umknown'
 
         th, thumb = await get_thumb(a, message)
