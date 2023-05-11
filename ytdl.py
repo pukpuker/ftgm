@@ -6,6 +6,8 @@ from telethon.tl.types import DocumentAttributeAudio
 from yt_dlp import YoutubeDL
 from PIL import Image
 
+from telethon.tl.patched import Message
+
 
 @loader.tds
 class YTDLMod(loader.Module):
@@ -77,7 +79,11 @@ async def ses(self, message, args, reply, type_):
     else:
         thumb_ = False
         uri = text
-    message = (await utils.answer(message, "loading"))[0]
+    message = await utils.answer(message, "loading")
+    if isinstance(message, Message):
+    	pass
+    elif isinstance(message, list):
+    	message = message[0]
 
     if type_ == 'a':
         try:
