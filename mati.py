@@ -12,15 +12,14 @@ logger = logging.getLogger(__name__)
 @loader.tds
 class YourMod(loader.Module):
     """Description for module"""  # Translateable due to @loader.tds
+
     strings = {
         "cfg_doc": "This is what is said, you can edit me with the configurator",
         "name": "EvilInsult",
         }
 
-
     def __init__(self):
         self.config = loader.ModuleConfig("LANG", "ru", lambda m: self.strings["cfg_doc"])
-
 
     @loader.support
     async def insultcmd(self, m: types.Message):
@@ -33,7 +32,7 @@ class YourMod(loader.Module):
         config = self.config["LANG"]
         url = f"https://www.evilinsult.com/generate_insult.php?lang={config}"
         tasks = []
-        for i in range(count):
+        for _ in range(count):
             tasks.append(req(url))
         res = await asyncio.gather(*tasks)
         await utils.answer(m, "\n".join(res))
