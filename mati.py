@@ -34,7 +34,7 @@ class YourMod(loader.Module):
         tasks = []
         for _ in range(count):
             tasks.append(req(url))
-        res = await asyncio.gather(*tasks)
+        res = list(set(await asyncio.gather(*tasks)))
         await utils.answer(m, "\n".join(res))
 
 
