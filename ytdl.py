@@ -155,7 +155,10 @@ async def ses(self, message, args, reply, type_):
 async def gget(uri, opts):
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download=True)
-        nama = ydl.prepare_filename(a)
+        nama = bytrs(ydl.prepare_filename(a).encode())
+        if len(nama) >230:
+            nama = nama[:230]
+        nama = nama.decode()
     return a, nama
 
 async def get_thumb(a, m):
