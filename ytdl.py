@@ -156,8 +156,8 @@ async def gget(uri, opts):
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download=True)
         nama = bytes(ydl.prepare_filename(a).encode())
-        if len(nama) >230:
-            nama = nama[:230]
+        if len(nama) >200:
+            nama = nama[:200]
         nama = nama.decode()
     return a, nama
 
