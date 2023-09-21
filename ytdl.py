@@ -67,7 +67,7 @@ async def ses(self, message, args, reply, type_):
         #'no-check-certificate': True,
         'prefer_ffmpeg': True,
         'geo_bypass': True,
-        'outtmpl': '%(title)s.%(ext)s',
+        'outtmpl': '%(title).230B.%(ext)s',
         'add-metadata': True
     }
     text = reply.message if reply else None
@@ -155,10 +155,7 @@ async def ses(self, message, args, reply, type_):
 async def gget(uri, opts):
     with YoutubeDL(opts) as ydl:
         a = ydl.extract_info(uri, download=True)
-        nama = bytes(ydl.prepare_filename(a).encode())
-        if len(nama) >200:
-            nama = nama[:200]
-        nama = nama.decode()
+        nama = ydl.prepare_filename(a)
     return a, nama
 
 async def get_thumb(a, m):
@@ -183,3 +180,4 @@ ext:{a.get('ext', None)} """
         _ += f"res:{a.get('resolution', None)} "
         _ += f"fps:{fps} " if fps else ''
     return _
+        
