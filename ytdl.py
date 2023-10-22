@@ -88,14 +88,34 @@ async def ses(self, message, args, reply, type_):
     if type_ == 'a':
         try:
             opts.update({
-                'format': 'bestaudio[ext=m4a]/best'
+                'postprocessors': [
+                    {'key': 'EmbedThumbnail'},
+                    {
+                        'key':
+                            'ModifyChapters',
+                            'remove_sponsor_segments': [
+                                'sponsor',
+                                'intro',
+                                'outro',
+                                'interaction',
+                                'selfpromo',
+                                'preview',
+                                'music_offtopic'
+                            ]
+                    },
+                    {'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '320'}
+                ],
             })
             a, nama = await gget(uri, opts)
+            nama = nama.replace('.mp4', '.mp3')
+            nama = nama.replace('.webm', '.mp3')
         except Exception as e:
             print(e)
-            opts['format'] = 'bestaudio[ext=m4a]/best'
+            opts['format'] = 'bestaudio[ext=mp3]/best'
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
-            opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'm4a'})
+            opts['postprocessors'].append({'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3'})
             a, nama = await gget(uri, opts)
 
         _ = a['uploader'] if 'uploader' in a else None#'umknown'
@@ -121,14 +141,13 @@ async def ses(self, message, args, reply, type_):
     elif type_ == 'v':
         try:
             opts.update({
-                'format': 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]/best' # 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
+                'format': 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=mp3]/best' # 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
             })
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
-
-            opts['format'] = 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]/best'#'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
+            opts['format'] = 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=mp3]/best'#'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
             a, nama = await gget(uri, opts)
 
         th, thumb = await get_thumb(a, message)
