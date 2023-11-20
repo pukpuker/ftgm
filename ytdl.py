@@ -7,7 +7,7 @@ from yt_dlp import YoutubeDL
 from PIL import Image
 
 from telethon.tl.patched import Message
-
+from telethon.tl.types import DocumentAttributeFilename
 
 @loader.tds
 class YTDLMod(loader.Module):
@@ -34,7 +34,7 @@ class YTDLMod(loader.Module):
         await ses(self, message, args, reply, 'v')
 
     async def ytacmd(self, message):
-        """.ytv - dowmload audio media"""
+        """.yta - dowmload audio media"""
         args = utils.get_args(message)
         reply = await message.get_reply_message()
         await ses(self, message, args, reply, 'a')
@@ -48,7 +48,6 @@ async def ses(self, message, args, reply, type_):
         #'convert-thumbnail': 'png',
         'writethumbnail': True,
         'postprocessors': [
-            {'key': 'SponsorBlock'},
             {'key': 'EmbedThumbnail'},
             {
                 'key':
@@ -62,7 +61,10 @@ async def ses(self, message, args, reply, type_):
                         'preview',
                         'music_offtopic'
                     ]
-            }
+            },
+            {'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '320'}
         ],
         #'no-check-certificate': True,
         'prefer_ffmpeg': True,
@@ -88,29 +90,13 @@ async def ses(self, message, args, reply, type_):
     if type_ == 'a':
         try:
             opts.update({
-                'postprocessors': [
-                    {'key': 'EmbedThumbnail'},
-                    {
-                        'key':
-                            'ModifyChapters',
-                            'remove_sponsor_segments': [
-                                'sponsor',
-                                'intro',
-                                'outro',
-                                'interaction',
-                                'selfpromo',
-                                'preview',
-                                'music_offtopic'
-                            ]
-                    },
-                    {'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '320'}
-                ],
+                'format': 'bestaudio[ext=mp3][abr=320]/best'
             })
             a, nama = await gget(uri, opts)
             nama = nama.replace('.mp4', '.mp3')
-            nama = nama.replace('.webm', '.mp3')
+            my_file = open("otus.txt", "w")
+            my_file.write(nama)
+            my_file.close()
         except Exception as e:
             print(e)
             opts['format'] = 'bestaudio[ext=mp3]/best'
@@ -129,7 +115,7 @@ async def ses(self, message, args, reply, type_):
         await self.client.send_file(
             message.chat_id,
             nama,
-            supports_streaming=True,
+            supports_streaming=False,
             reply_to=reply.id if reply else None,
             thumb=th,
             attributes=[
@@ -141,13 +127,14 @@ async def ses(self, message, args, reply, type_):
     elif type_ == 'v':
         try:
             opts.update({
-                'format': 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=mp3]/best' # 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
+                'format': 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]/best' # 'bestvideo[ext^=mp4][height<1400]+ba'#[fps>30]+ba'#'[ext^=m4a]'
             })
             a, nama = await gget(uri, opts)
         except Exception as e:
             print(e)
             opts['postprocessors'].pop(0); opts['postprocessors'].pop(1)
-            opts['format'] = 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=mp3]/best'#'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
+
+            opts['format'] = 'bestvideo[ext=mp4][height<=?1080]+bestaudio[ext=m4a]/best'#'bestvideo[ext^=mp4][height<1400]+bestaudio/bestvideo'
             a, nama = await gget(uri, opts)
 
         th, thumb = await get_thumb(a, message)
@@ -199,4 +186,3 @@ ext:{a.get('ext', None)} """
         _ += f"res:{a.get('resolution', None)} "
         _ += f"fps:{fps} " if fps else ''
     return _
-        
